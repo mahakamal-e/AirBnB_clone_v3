@@ -113,3 +113,33 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    def test_get_existing_object(self):
+        """Test retrieving an existing object by ID"""
+        storage = FileStorage()
+        state_id = "existing_state_id"
+        state = State(id=state_id, name="Existing State")
+        storage.new(state)
+        storage.save()
+
+        retrieved_state = storage.get(State, state_id)
+        self.assertEqual(retrieved_state.id, state_id)
+
+    def test_get_nonexistent_object(self):
+        """Test retrieving a non-existent object by ID"""
+        storage = FileStorage()
+        nonexistent_state_id = "nonexistent_state_id"
+        retrieved_state = storage.get(State, nonexistent_state_id)
+        self.assertIsNone(retrieved_state)
+
+    def test_count_all_objects(self):
+        """Test counting all objects in storage"""
+        storage = FileStorage()
+        total_objects = storage.count()
+        self.assertIsInstance(total_objects, int)
+
+    def test_count_objects_by_class(self):
+        """Test counting objects by class"""
+        storage = FileStorage()
+        state_objects = storage.count(State)
+        self.assertIsInstance(state_objects, int)
