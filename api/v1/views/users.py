@@ -6,7 +6,7 @@ from models import storage
 from models.user import User
 
 
-@app_views.route('/users/', methods=['GET'])
+@app_views.route('/users', methods=['GET'])
 def get_users():
     """ List all users """
     users = storage.all(User).values()
@@ -26,7 +26,7 @@ def get_user(user_id):
     return jsonify(user.to_dict()), 200
 
 
-@app_views.route('/users/', methods=['POST'])
+@app_views.route('/users', methods=['POST'])
 def create_user():
     """ Creates a new user """
     user_data = request.get_json()
