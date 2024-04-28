@@ -21,7 +21,7 @@ def status():
 
 @app_views.route('/stats')
 def get_objects_counts():
-    """Return JSON with counts of each object type."""
+    """Retrieves the number of each objects by type."""
     object_types = {
         "amenities": Amenity,
         "cities": City,
