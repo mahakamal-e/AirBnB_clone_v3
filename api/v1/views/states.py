@@ -7,12 +7,12 @@ from models.state import State
 
 
 @app_views.route('/states', methods=['GET'])
-def get_stats():
+def get_states():
     """ list all states """
     states = storage.all(State).values()
-    state_list = [state.toduct() for state in states]
+    states_list = [state.to_dict() for state in states]
 
-    return jsonify(state_list)
+    return jsonify(states_list), 200
 
 
 @app_views.route('/states/<state_id>', methods=['GET'])
@@ -23,7 +23,7 @@ def get_state(state_id):
         response = jsonify({"error": "Not found"})
         response.status_code = 404
         return response
-    return jsonify(state.to_dict())
+    return jsonify(state.to_dict()), 200
 
 
 @app_views.route('/states', methods=['POST'])
