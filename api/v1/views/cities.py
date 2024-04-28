@@ -65,14 +65,9 @@ def update_city(city_id):
     city = storage.get(City, city_id)
     if not city:
         abort(404)
-    if not request.json:
-        abort(400)
-    city_data = request.json
-    city_data.pop('id', None)
-    city_data.pop('state_id', None)
-    city_data.pop('created_at', None)
-    city_data.pop('updated_at', None)
-    for key, value in city_data.items():
-        setattr(city, key, value)
+    req_city = request.get_json()
+    if not req_city:
+        return jsonify({"Not a JSON"}), 400
+    setattr(city, 'name', req_city.get('name'))
     storage.save()
     return jsonify(city.to_dict()), 200
