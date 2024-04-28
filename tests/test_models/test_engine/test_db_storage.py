@@ -89,24 +89,37 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
-        """Test the get method"""
+        """
+        Method that tests get method
+        """
         state_id = "existing_state_id"
+
         state = State(id=state_id, name="California")
         models.storage.new(state)
         models.storage.save()
 
-        retrieved_state = models.storage.get(State, state_id)
+        state_returns = models.storage.get(State, state_id)
 
-        self.assertEqual(retrieved_state.id, state_id)
+        self.assertEqual(state_returns.id, state_id)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_count_all_objects(self):
-        """Test the count method with no class specified"""
-        models.storage.reload()
+    def test_get_rightObject(self):
+        """Method that tests get method
+        returns the object based on the class name and ID"""
+        from models import storage as db_storage
 
-        total_objects = models.storage.count()
+        name = "Massachusetts"
+        state = State(name="Massachusetts")
 
-        self.assertIsInstance(total_objects, int)
+        state.save()
+
+        idOfState = state.id
+        nameOfState = state.name
+
+        state_ = db_storage.get(State, idOfState)
+
+        self.assertEqual(state.name, name)
+        self.assertEqual(idOfState, state_.id)
+        self.assertEqual(nameOfState, state_.name)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count_objects_by_class(self):
@@ -117,23 +130,14 @@ class TestFileStorage(unittest.TestCase):
 
         self.assertIsInstance(state_objects, int)
 
-    def test_get(self):
-        """Test that get returns the object based on the class name and ID"""
-        from models import storage as db_storage
-        name = "Californiaaaaaaaaaaaaaaaaa"
-        state = State(name="Californiaaaaaaaaaaaaaaaaa")
-        state.save()
-        state_id = state.id
-        state_name = state.name
-        get_state = db_storage.get(State, state_id)
-        self.assertEqual(state.name, name)
-        self.assertEqual(state_id, get_state.id)
-        self.assertEqual(state_name, get_state.name)
-
     def test_count(self):
-        """Test that count returns the number of objects in storage"""
+        """Method that tsets count method
+        returns the number of objects in storage
+        """
         from models import storage as db_storage
+
         storage = db_storage
         count = storage.count()
+
         self.assertEqual(type(count), int)
         self.assertEqual(count, len(storage.all()))
