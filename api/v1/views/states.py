@@ -26,7 +26,7 @@ def get_state(state_id):
     return jsonify(state.to_dict()), 200
 
 
-@app_views.route('/states', methods=['POST'])
+@app_views.route('/states/', methods=['POST'])
 def create_state():
     """ creates new state """
     state = request.get_json()
