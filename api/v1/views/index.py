@@ -19,21 +19,21 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', methods=['GET'])
-def get_stats():
-    """retrieves count of each objects 
-    """
-    objects = {
+@app_views.route('/stats')
+def get_objects_counts():
+    """Return JSON with counts of each object type."""
+    object_types = {
         "amenities": Amenity,
         "cities": City,
         "places": Place,
         "reviews": Review,
         "states": State,
         "users": User
-        }
-
-    count_objects = {
-      key: storage.count(value) for key, value in objs.items()
     }
 
-    return jsonify(count_objects)
+    counts = {
+        object_type: storage.count(cls)
+        for object_type, cls in object_types.items()
+    }
+
+    return jsonify(counts)
