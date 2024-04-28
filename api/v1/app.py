@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
+
 @app.teardown_appcontext
 def terminate(exc):
     """ Method used to close AQLAlchemy session"""
@@ -24,6 +25,8 @@ def error_not_found(error):
     response = jsonify({"error": "Not found"})
     response.status_code = 404
     return response
+
+
 if __name__ == "__main__":
     app.run(host=getenv('HBNB_API_HOST', '0.0.0.0'),
             port=getenv('HBNB_API_PORT', 5000),
