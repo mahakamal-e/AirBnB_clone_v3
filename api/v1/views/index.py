@@ -15,6 +15,14 @@ from models.user import User
 
 @app_views.route('/status', methods=['GET'])
 def status():
+    """ returns status of program """
+    return jsonify({"status": "OK"})
+
+
+@app_views.route('/stats', methods=['GET'])
+def stats():
+    """ Retrieves the number of each objects
+    based on each Class type """
     objects = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
