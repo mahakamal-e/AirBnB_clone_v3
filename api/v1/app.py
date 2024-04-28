@@ -3,7 +3,7 @@
 """
 from flask import Flask
 from models import storage
-import os
+from os import getenv
 from api.v1.views import app_views
 
 app = Flask(__name__)
