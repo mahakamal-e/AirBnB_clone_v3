@@ -1,14 +1,12 @@
-#!/usr/bin/python3
-"""
-Create a new view for Review object that handles,
-all default RESTFul API actions.
-"""
+# Corrected code with error handling and formatting improvements
+
 from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models import storage
 from models.review import Review
 from models.place import Place
 from models.user import User
+
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'])
@@ -52,14 +50,14 @@ def create_review(place_id):
     data = request.get_json()
     if not data:
         return jsonify({"error": "Not a JSON"}), 400
-    if 'user_id' not in data.keys():
+    if 'user_id' not in data:
         return jsonify({"error": "Missing user_id"}), 400
     if 'text' not in data:
         return jsonify({"error": "Missing text"}), 400
 
-    users = storage.all(User)
-    user_id = users.get('User.' + data['user_id'])
-    if user_id is None:
+    user_id = data['user_id']
+    user = storage.get(User, user_id)
+    if user is None:
         abort(404)
 
     data['place_id'] = place_id
@@ -79,12 +77,9 @@ def update_review(review_id):
     if not data:
         return jsonify({"error": "Not a JSON"}), 400
 
-    list_attributes = ['id', 'user_id', 'place_id',
-                       'created_at', 'updated_at']
     for key, value in data.items():
-        if key not in list_attributes:
+        if key not in ['id', 'user_id', 'place_id', 'created_at', 'updated_at']:
             setattr(review, key, value)
 
     storage.save()
     return jsonify(review.to_dict()), 200
-
