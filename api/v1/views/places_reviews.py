@@ -7,6 +7,8 @@ from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models import storage
 from models.review import Review
+from models.place import Place
+from models.user import User
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'])
@@ -72,7 +74,6 @@ def update_review(review_id):
     review = storage.get('Review', review_id)
     if review is None:
         abort(404)
-
     data = request.get_json()
     if not data:
         return jsonify({"error": "Not a JSON"}), 400
@@ -82,6 +83,6 @@ def update_review(review_id):
                        'created_at', 'updated_at']:
             setattr(review, key, value)
 
-    review.save()
+    storage.save()
     return jsonify(review.to_dict()), 200
 
