@@ -49,25 +49,31 @@ def delete_review(review_id):
 @app_views.route('/places/<place_id>/reviews', methods=['POST'])
 def create_review(place_id):
     """Creates a new review"""
-    place = storage.get(Place, place_id)
-    if not place:
+    place_by_id = storage.get(Place, place_id)
+    if not place_by_id:
         abort(404)
 
-    if not request.get_json():
-        return jsonify({"error": "Not a JSON"}), 400
-    if 'user_id' not in request.get_json():
-        return jsonify({"error": "Missing user_id"}), 400
-    data = request.get_json()
-    user = storage.get(User, data['user_id'])
-    if not user:
+    body_request = request.get_json()
+    if not body_request:
+        abort(400, "Not a JSON")
+
+    if "user_id" not in body_request.keys():
+        abort(400, "Missing user_id")
+
+    users = storage.all(User)
+    user_by_id = users.get('User.' + body_request['user_id'])
+    if not user_by_id:
         abort(404)
 
-    if 'text' not in request.get_json():
-        return jsonify({"error": "Missing text"}), 400
-    data['place_id'] = place_id
-    new_instance = Review(**data)
-    new_instance.save()
-    return jsonify(new_instance.to_dict()), 201
+    if "text" not in body_request.keys():
+        abort(400, "Missing text")
+
+    body_request["place_id"] = place_id
+    review = Review(**body_request)
+    review.save()
+
+    return jsonify(review.to_dict()), 201
+
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'])
 def update_review(review_id):
