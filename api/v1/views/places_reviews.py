@@ -26,26 +26,23 @@ def get_reviews_by_place_id(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['GET'])
 def get_review_by_id(review_id):
-    """Get review by a specific id"""
-    review_by_id = storage.get(Review, review_id)
-
-    if not review_by_id:
+    """Retrieves a Review object by ID"""
+    review = storage.get(Review, review_id)
+    if review is None:
         abort(404)
 
-    return jsonify(review_by_id.to_dict()), 200
+    return jsonify(review.to_dict()), 200
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'])
 def delete_review(review_id):
-    """Delete review based on an id"""
-    review_by_id = storage.get(Review, review_id)
-
-    if not review_by_id:
+    """Delete a Review object by id"""
+    review = storage.get(Review, review_id)
+    if review is None:
         abort(404)
 
-    review_by_id.delete()
+    review.delete()
     storage.save()
-
     return jsonify({}), 200
 
 
