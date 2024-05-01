@@ -30,4 +30,6 @@ class User(BaseModel, Base):
         super().__init__(*args, **kwargs)
 
     def hash_password(password):
-        return hashlib.md5(password.encode()).hexdigest()
+        """ hash password """
+        obj = hashlib.md5().update(self.password.encode('utf-8'))
+        self.password = obj.hexdigest()
