@@ -61,7 +61,7 @@ def create_review(place_id):
         abort(400, "Missing user_id")
 
     users = storage.all(User)
-    user = users.get('User.' + data['user_id'])
+    user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
 
