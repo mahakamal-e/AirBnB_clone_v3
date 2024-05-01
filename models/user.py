@@ -31,5 +31,6 @@ class User(BaseModel, Base):
 
     def hash_password(password):
         """ hash password """
-        obj = hashlib.md5().update(self.password.encode('utf-8'))
+        obj = hashlib.md5()
+        obj.update(self.password.encode('utf-8'))
         self.password = obj.hexdigest()
