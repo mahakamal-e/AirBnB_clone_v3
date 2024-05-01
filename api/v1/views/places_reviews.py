@@ -54,25 +54,24 @@ def create_review(place_id):
     if not place:
         abort(404)
 
-    if not request.get_json():
+    data = request.get_json()
+    if not data:
         abort(400, description="Not a JSON")
 
-    if 'user_id' not in request.get_json():
+    if 'user_id' not in data:
         abort(400, description="Missing user_id")
 
-    data = request.get_json()
     user = storage.get(User, data['user_id'])
-
     if not user:
         abort(404)
 
-    if 'text' not in request.get_json():
+    if 'text' not in data:
         abort(400, description="Missing text")
 
     data['place_id'] = place_id
-    instance = Review(**data)
-    instance.save()
-    return jsonify(instance.to_dict()), 201
+    new_review = Review(**data)
+    new_review.save()
+    return jsonify(new_review.to_dict()), 201
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'])
