@@ -160,4 +160,26 @@ Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://tw
 Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
-add 
+
+## Features Added
+1. Status Endpoint
+Implemented a /status endpoint that provides information about the status of the API.
+Returns a JSON response indicating that the API is running smoothly with a status of "OK".
+2. Statistics Endpoint
+Created a /stats endpoint to retrieve the count of each object type available in the database.
+Utilizes the count() method from the storage module to calculate the counts.
+Returns a JSON response containing the counts of amenities, cities, places, reviews, states, and users.
+3. Not Found Handler
+Implemented a custom 404 error handler to return JSON-formatted responses for endpoints that are not found.
+Returns a JSON response with a status code of 404 and the content "error": "Not found".
+4. State View
+Developed a view for State objects that handles various RESTful API actions.
+Implemented endpoints to list all states, retrieve a state by ID, delete a state, create a state, and update a state.
+Ensured the responses are in valid JSON format using the to_dict() method.
+5. City View
+Created a view for City objects to manage CRUD operations via RESTful API endpoints.
+Implemented endpoints to list all cities of a state, retrieve a city by ID, delete a city, create a city, and update a city.
+Ensured adherence to RESTful API conventions and proper JSON formatting.
+
+## Authors for added features
+Maha Kamal
