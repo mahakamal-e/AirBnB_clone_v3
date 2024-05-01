@@ -55,24 +55,23 @@ def create_review(place_id):
         abort(404)
 
     if not request.get_json():
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
 
-    if "user_id" not in request.get_json().keys():
-        abort(400, "Missing user_id")
+    if 'user_id' not in request.get_json():
+        abort(400, description="Missing user_id")
 
     data = request.get_json()
-    users = storage.all(User)
-    user_ = users.get('User.' + data['user_id'])
-    if not user_:
+    user = storage.get(User, data['user_id'])
+
+    if not user:
         abort(404)
 
-    if "text" not in data.keys():
-        abort(400, "Missing text")
+    if 'text' not in request.get_json():
+        abort(400, description="Missing text")
 
-    data["place_id"] = place_id
-    review = Review(**body_request)
-    review.save()
-
+    data['place_id'] = place_id
+    instance = Review(**data)
+    instance.save()
     return jsonify(review.to_dict()), 201
 
 
