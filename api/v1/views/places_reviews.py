@@ -1,7 +1,9 @@
 #!/usr/bin/python3
-"""Implement reviews view"""
-
-from flask import jsonify, abort, request
+"""
+Creates a new view for Review object that handles,
+all default RESTFul API actions
+"""
+from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models import storage
 from models.review import Review
@@ -11,13 +13,13 @@ from models.user import User
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'])
 def get_reviews_by_place_id(place_id):
-    """Get all reviews from storage based on place id"""
-    place_by_id = storage.get(Place, place_id)
+    """Retrieves the list of all Review objects of a Place"""
+    place = storage.get(Place, place_id)
 
-    if not place_by_id:
+    if place is None:
         abort(404)
 
-    reviews = [review.to_dict() for review in place_by_id.reviews]
+    reviews = [review.to_dict() for review in place.reviews]
 
     return jsonify(reviews), 200
 
