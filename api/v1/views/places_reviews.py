@@ -50,11 +50,11 @@ def delete_review(review_id):
 def create_review(place_id):
     """Creates a new review"""
     place = storage.get(Place, place_id)
-    if not place:
+    if place is None:
         abort(404)
 
     data = request.get_json()
-    if not data:
+    if data is None:
         abort(400, "Not a JSON")
     if "user_id" not in data:
         abort(400, "Missing user_id")
