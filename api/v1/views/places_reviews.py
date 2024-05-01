@@ -16,7 +16,7 @@ def get_reviews_by_place_id(place_id):
     """Retrieves the list of all Review objects of a Place"""
     place = storage.get(Place, place_id)
 
-    if place is None:
+    if not place:
         abort(404)
 
     reviews = [review.to_dict() for review in place.reviews]
