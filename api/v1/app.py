@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 app.register_blueprint(app_views)
-cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
 @app.teardown_appcontext
@@ -29,6 +29,11 @@ def error_not_found(error):
 
 
 if __name__ == "__main__":
-    app.run(host=getenv('HBNB_API_HOST', '0.0.0.0'),
-            port=getenv('HBNB_API_PORT', 5000),
-            threaded=True)
+    """ main function """
+    host = getenv('HBNB_API_HOST')
+    port = getenv('HBNB_API_PORT')
+    if not host:
+        host = '0.0.0.0'
+    if not port:
+        port = '5000'
+    app.run(host=host, port=port, threaded=True)

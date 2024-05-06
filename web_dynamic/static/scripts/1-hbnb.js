@@ -1,6 +1,7 @@
 $(document).ready(() => {
   $('.filters .amenities .popover li input').change(() => {
-    const amenityNames = [];    
+    const amenityNames = [];
+    
     $('.filters .amenities .popover li input').each(function () {
       const amenityName = $(this).attr('data-name');
       
@@ -17,4 +18,4 @@ $(document).ready(() => {
       h4Element.html('&nbsp;');
     }
   });
-} 
+});
