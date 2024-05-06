@@ -180,7 +180,3 @@ Ensured the responses are in valid JSON format using the to_dict() method.
 Created a view for City objects to manage CRUD operations via RESTful API endpoints.
 Implemented endpoints to list all cities of a state, retrieve a city by ID, delete a city, create a city, and update a city.
 Ensured adherence to RESTful API conventions and proper JSON formatting.
-
-## Authors for added features
-Maha Kamal
-Deena Kamal 
